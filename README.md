@@ -5,3 +5,6 @@ This is a minimal reproduction of a bug reported to the notifee team where notif
 To reproduce the issue, download this repo, run `npm install` and then run `npx react-native run-android --variant release`
 
 The issue does not occur in Debug builds, so `npx react-native run-android` should get you a more functional app. 
+
+See the original issue details here: 
+https://github.com/notifee/react-native-notifee/issues/184
