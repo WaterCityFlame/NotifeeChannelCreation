@@ -8,6 +8,7 @@
 
 import React from 'react';
 import {
+  Button,
   SafeAreaView,
   StyleSheet,
   ScrollView,
@@ -18,14 +19,11 @@ import {
 
 import {
   Header,
-  LearnMoreLinks,
   Colors,
-  DebugInstructions,
-  ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
-import notifee, {AndroidImportance} from '@notifee/react-native';
+import notifee, {AndroidImportance, TriggerType} from '@notifee/react-native';
 
-const App: () => React.Node = () => {
+export const App: () => React.Node = () => {
 
   notifee.createChannel({
     id: "testChannelId",
@@ -43,38 +41,35 @@ const App: () => React.Node = () => {
           contentInsetAdjustmentBehavior="automatic"
           style={styles.scrollView}>
           <Header />
-          {global.HermesInternal == null ? null : (
-            <View style={styles.engine}>
-              <Text style={styles.footer}>Engine: Hermes</Text>
-            </View>
-          )}
           <View style={styles.body}>
             <View style={styles.sectionContainer}>
               <Text style={styles.sectionTitle}>Step One</Text>
               <Text style={styles.sectionDescription}>
-                Edit <Text style={styles.highlight}>App.js</Text> to change this
-                screen and then come back to see your edits.
+                Click the button below to schedule a notification in 15 seconds.
               </Text>
+              <Button 
+                title="Send A Notification"
+                onPress={() => {
+                  notifee.createTriggerNotification({
+                      title: "this is a title", 
+                      body: "and a body", 
+                      android: {channelId: "testChannelId"}
+                    }, 
+                    {
+                      type: TriggerType.TIMESTAMP,
+                      timestamp: (Date.now() + 15000)
+                    }
+                  )
+                }
+              }>
+              </Button>
             </View>
             <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>See Your Changes</Text>
+              <Text style={styles.sectionTitle}>Step Two</Text>
               <Text style={styles.sectionDescription}>
-                <ReloadInstructions />
+                If this was a debug build, you should get a notification.
               </Text>
             </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Debug</Text>
-              <Text style={styles.sectionDescription}>
-                <DebugInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Learn More</Text>
-              <Text style={styles.sectionDescription}>
-                Read the docs to discover what to do next:
-              </Text>
-            </View>
-            <LearnMoreLinks />
           </View>
         </ScrollView>
       </SafeAreaView>
